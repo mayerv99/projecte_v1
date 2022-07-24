@@ -8,3 +8,12 @@ export const checkIfUserExists = async (userId) => {
 
   return user;
 };
+
+export const createNewUser = async (data) => {
+  const newUser = await axios
+    .post("http://localhost:8080/usuario", data)
+    .then((res) => res.data)
+    .catch((err) => console.log(err));
+
+  return newUser;
+};

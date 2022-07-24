@@ -20,41 +20,32 @@ function UsersAndInterferencesList({ setFormVisibility }) {
   const [enterpriseUsersData, setEnterpriseUsersData] = useState([]);
   const [enterpriseRelations, setEnterpriseRelations] = useState([]);
 
-  const { selectedEnterprise, usersList, setUsersList } =
-    useContext(baseContext);
+  const {interferencesList} - useContext(baseContext)
+
+  const {
+    selectedEnterprise,
+    usersList,
+    setUsersList,
+    fetchUsers,
+    enterpriseRelationsList,
+  } = useContext(baseContext);
 
   const openUserForm = () => {
     setFormVisibility(2);
   };
 
   const openInterferenceForm = () => {
-    setFormVisibility(3);
+    setFormVisibility(4);
   };
 
   const getAllUsers = async () => {
-    const primaryUser = await getPrimaryUsers(selectedEnterprise);
-    const secondaryUsers = await getSecondaryUser(selectedEnterprise);
-
-    const usersArray = [...primaryUser, ...secondaryUsers];
-
-    const usersData = [];
-    setEnterpriseRelations(usersArray);
-
-    // usersArray.map(async (user) => {
-    //   const userData = await checkIfUserExists(user.cpf_cnpj_usuario);
-    //   usersData.push(userData);
-    // });
-
-    // setEnterpriseUsersData(usersData);
-
-    // console.log("usersData: ", usersData);
-    return usersData;
+    fetchUsers();
   };
 
   const handleData = async () => {
     if (selectedEnterprise) {
       if (selectedOption === "user") {
-        const allUsers = await getAllUsers(selectedEnterprise);
+        const allUsers = await getAllUsers();
         setUsersList(allUsers);
       }
       // if (selectedOption === "interference") {
@@ -74,7 +65,7 @@ function UsersAndInterferencesList({ setFormVisibility }) {
           <SliderOption
             value="user"
             selectedOption={selectedOption}
-            onClick={() => console.log(usersList)}
+            onClick={() => setSelectedOption("user")}
           >
             Usuários
           </SliderOption>
@@ -97,9 +88,11 @@ function UsersAndInterferencesList({ setFormVisibility }) {
         </button>
       </Title>
       <ListContainer>
-        {enterpriseRelations.map((user) => (
-          <ListItem>{user.cpf_cnpj_usuario}</ListItem>
-        ))}
+        {selectedOption === "user"
+          ? enterpriseRelationsList.map((user) => (
+              <ListItem>{user.cpf_cnpj_usuario}</ListItem>
+            ))
+          : interferencesList.map((interference) => <ListItem></ListItem>)}
       </ListContainer>
     </Wrapper>
   );

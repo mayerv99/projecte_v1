@@ -8,3 +8,12 @@ export const getSecondaryUser = async (enterpriseId) => {
 
   return secondaryUsers;
 };
+
+export const createSecondaryUser = async (data) => {
+  const newUser = await axios
+    .post("http://localhost:8080/usuario-secundario", data)
+    .then((res) => res.data)
+    .catch((err) => console.log(err));
+
+  return newUser;
+};

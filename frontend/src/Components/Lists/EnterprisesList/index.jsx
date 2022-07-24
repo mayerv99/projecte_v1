@@ -42,7 +42,8 @@ function EnterprisesList({ setFormVisibility }) {
             onClick={() => setSelectedEnterprise(enterprise.cod_empreendimento)}
             isSelected={handleIsSelected(enterprise)}
           >
-            {enterprise.cod_empreendimento}
+            {enterprise.cod_empreendimento} -{" "}
+            {enterprise.emp_nm_empreeendimento}
           </ListItem>
         ))}
       </ListContainer>
