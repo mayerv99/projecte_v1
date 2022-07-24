@@ -5,6 +5,7 @@ import EnterpriseForm from "../Forms/EnterpriseForm";
 import EnterprisesList from "../Lists/EnterprisesList";
 import UsersAndInterferencesList from "../Lists/UsersAndInterferencesList";
 import UserForm from "../Forms/UserForm";
+import RelationModal from "../RelationModal";
 
 import { Wrapper } from "./styled";
 
@@ -17,8 +18,11 @@ function CardsContainer() {
         <EnterpriseForm setFormVisibility={setFormVisibility} />
       )}
       {formVisibility === 2 && (
-        <UserForm setFormVisibility={setFormVisibility} />
+        <RelationModal setFormVisibility={setFormVisibility} />
       )}
+      {/* {formVisibility === 3 && (
+        <InterferenceForm setFormVisibility={setFormVisibility} />
+      )} */}
       <Card>
         <EnterprisesList setFormVisibility={setFormVisibility} />
       </Card>

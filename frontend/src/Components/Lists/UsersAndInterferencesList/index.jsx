@@ -13,10 +13,8 @@ import {
 function UsersAndInterferencesList({ setFormVisibility }) {
   const [selectedOption, setSelectedOption] = useState("user");
 
-  const { openRelationModal } = useContext(baseContext);
-
   const openUserForm = () => {
-    openRelationModal();
+    setFormVisibility(2);
   };
 
   const openInterferenceForm = () => {

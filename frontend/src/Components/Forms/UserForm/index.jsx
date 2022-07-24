@@ -8,7 +8,7 @@ import {
   FormFooter,
 } from "./styled";
 
-import { Form, Scope } from "@unform/web";
+import { Form } from "@unform/web";
 
 import Input from "../Input";
 
