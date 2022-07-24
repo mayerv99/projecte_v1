@@ -66,3 +66,22 @@ export const Slider = styled.div`
       ? "left: 0; border-radius: 5px 0 0 5px;"
       : "right: 0; border-radius: 0 5px 5px 0;"}
 `;
+
+export const ListContainer = styled.div`
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+
+export const ListItem = styled.div`
+  width: 90%;
+  padding: 15px;
+  line-height: 30px;
+  margin: 0 auto;
+  border-radius: 5px;
+  background-color: #e9e9e9;
+  color: black;
+
+  cursor: pointer;
+`;
