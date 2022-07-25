@@ -20,10 +20,11 @@ export const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     height: 100%;
-    div {
-      display: flex;
-      flex-direction: column;
-    }
+    gap: 20px;
+    /* div { */
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* } */
 
     .header {
       text-transform: uppercase;
@@ -33,15 +34,20 @@ export const Wrapper = styled.div`
     }
   }
 
+  .selectButtons {
+    display: flex;
+    justify-content: space-around;
+  }
+
   h2 {
     font-size: 16px;
   }
 
-  div {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 20px;
-  }
+  /* div { */
+  /* display: flex; */
+  /* justify-content: space-around; */
+  /* margin-top: 20px; */
+  /* } */
 
   .nextStep {
     margin-left: auto;
@@ -74,6 +80,7 @@ export const SearchDiv = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  gap: 20px;
 
   .finish {
     margin-left: auto;
@@ -103,7 +110,7 @@ export const SearchInput = styled.input`
 `;
 export const SearchButton = styled.button`
   width: 15%;
-  margin-top: 40px;
+  margin-top: 18px;
 `;
 
 export const ListItem = styled.div`

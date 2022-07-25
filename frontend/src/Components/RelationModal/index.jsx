@@ -12,6 +12,8 @@ import {
 
 import { baseContext } from "../../Context/CompanyContext";
 
+import Select from "react-select";
+
 import {
   getPrimaryUsers,
   createPrimaryUser,
@@ -25,6 +27,11 @@ import { Form } from "@unform/web";
 
 import Input from "../Forms/Input";
 
+import {
+  primaryUserOwnerRelation,
+  secondaryUserPrimaryUserRelation,
+} from "../Forms/FieldsOptions/relationFields";
+
 function RelationModal({
   setFormVisibility,
   setUserAndRelationFormData,
@@ -33,6 +40,10 @@ function RelationModal({
   setUserToBeSelected,
   setUserType,
   userType,
+  relacao_usuario_proprietario,
+  setRelacao_usuario_proprietario,
+  relacao_usuario_principal_secundario,
+  setRelacao_usuario_principal_secundario,
 }) {
   const { selectedEnterprise, fetchUsers } = useContext(baseContext);
 
@@ -72,19 +83,29 @@ function RelationModal({
   };
 
   const createRelationWithExistingUser = async () => {
-    const newUserData = {
+    const newPrimaryUserData = {
       relationData: {
         ...userAndRelationFormData.relationData,
+        relacao_usuario_proprietario: relacao_usuario_proprietario.value,
+        codEmpreendimento: selectedEnterprise,
+        cpf_cnpj_usuario: userToBeSelected.emp_nu_cpfcnpj,
+      },
+    };
+    const newSecondaryUserData = {
+      relationData: {
+        ...userAndRelationFormData.relationData,
+        relacao_usuario_principal_secundario:
+          relacao_usuario_principal_secundario.value,
         codEmpreendimento: selectedEnterprise,
         cpf_cnpj_usuario: userToBeSelected.emp_nu_cpfcnpj,
       },
     };
     setFormVisibility(0);
     if (userType === "primary") {
-      await createPrimaryUser(newUserData.relationData);
+      await createPrimaryUser(newPrimaryUserData.relationData);
       return fetchUsers();
     }
-    await createSecondaryUser(newUserData.relationData);
+    await createSecondaryUser(newSecondaryUserData.relationData);
     return fetchUsers();
   };
 
@@ -114,7 +135,7 @@ function RelationModal({
         {step === 1 && (
           <>
             <h2>Selecione o tipo de usuário que deseja cadastrar:</h2>
-            <div>
+            <div className="selectButtons">
               {!hasPrimaryUser && (
                 <button onClick={() => openUserSearch("primary")}>
                   Usuário principal
@@ -134,14 +155,22 @@ function RelationModal({
           (userType === "primary" ? (
             <Form ref={formRef} onSubmit={handleSubmitPrimary}>
               <div className="header">Cadastro de usuário principal</div>
+              <>
+                <label>Relação usuário responsável-proprietário:</label>
+                <Select
+                  options={primaryUserOwnerRelation || []}
+                  value={relacao_usuario_proprietario}
+                  onChange={(e) => {
+                    if (e) {
+                      setRelacao_usuario_proprietario(e);
+                    }
+                  }}
+                />
+              </>
 
               <Input
-                name="relacao_usuario_proprietario"
-                label="Relação usuário responsável-proprietário (SELECT-FIELD)"
-              />
-              <Input
                 name="tipo_acordo_com_proprietario"
-                label="Descrição do tipo de acordo firmado com o proprietario"
+                label="Descrição do tipo de acordo firmado com o proprietario, com indicação do período do acordo (quando não for condição de parentesco)"
               />
               <Input name="int_nu_cnarg" label="Num. CNARH" />
               <Input name="int_cd_regla" label="ID REGLA" />
@@ -165,9 +194,14 @@ function RelationModal({
           ) : (
             <Form ref={formRef} onSubmit={handleSubmitSecondary}>
               <div className="header">Cadastro de usuário secundário</div>
-              <Input
-                name="relacao_usuario_principal_secundario"
-                label="Relação usuário secundario-usuario principal (empreendimento)"
+              <Select
+                value={relacao_usuario_principal_secundario}
+                options={secondaryUserPrimaryUserRelation || []}
+                onChange={(e) => {
+                  if (e) {
+                    setRelacao_usuario_principal_secundario(e);
+                  }
+                }}
               />
               <Input name="int_nu_cnarh" label="Num. CNARH" />
               <Input name="int_cd_regla" label="ID REGLA" />

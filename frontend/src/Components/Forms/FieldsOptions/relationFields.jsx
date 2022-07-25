@@ -1,4 +1,4 @@
-const primaryUserOwnerRelation = [
+export const primaryUserOwnerRelation = [
   { label: "1-Proprietário", value: "1-Proprietário" },
   { label: "2-Cônjugue", value: "2-Cônjugue" },
   { label: "3-Pais e filhos", value: "3-Pais e filhos" },
@@ -14,7 +14,7 @@ const primaryUserOwnerRelation = [
   { label: "10-Outro", value: "10-Outro" },
 ];
 
-const secondaryUserPrimaryUserRelation = [
+export const secondaryUserPrimaryUserRelation = [
   {
     label: "1-Cônjugue do usuário principal",
     value: "1-Cônjugue do usuário principal",

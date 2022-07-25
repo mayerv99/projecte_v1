@@ -21,29 +21,39 @@ function CardsContainer() {
   const [userAndRelationFormData, setUserAndRelationFormData] = useState({});
   const [userToBeSelected, setUserToBeSelected] = useState({});
   const [userType, setUserType] = useState("");
+  const [relacao_usuario_proprietario, setRelacao_usuario_proprietario] =
+    useState("");
+  const [
+    relacao_usuario_principal_secundario,
+    setRelacao_usuario_principal_secundario,
+  ] = useState();
 
   const createRelationWithExistingUser = async (userId) => {
-    const newUserData = {
+    const newPrimaryUserData = {
       relationData: {
         ...userAndRelationFormData.relationData,
+        relacao_usuario_proprietario: relacao_usuario_proprietario.value,
         codEmpreendimento: selectedEnterprise,
         cpf_cnpj_usuario: userId,
       },
     };
-    console.log("relationData: ", {
+
+    const newSecondaryUserData = {
       relationData: {
         ...userAndRelationFormData.relationData,
+        relacao_usuario_principal_secundario:
+          relacao_usuario_principal_secundario.value,
         codEmpreendimento: selectedEnterprise,
         cpf_cnpj_usuario: userId,
       },
-      userType,
-    });
+    };
+
     setFormVisibility(0);
     if (userType === "primary") {
-      await createPrimaryUser(newUserData.relationData);
+      await createPrimaryUser(newPrimaryUserData.relationData);
       return fetchUsers();
     }
-    await createSecondaryUser(newUserData.relationData);
+    await createSecondaryUser(newSecondaryUserData.relationData);
     return fetchUsers();
   };
 
@@ -69,6 +79,14 @@ function CardsContainer() {
           setUserToBeSelected={setUserToBeSelected}
           setUserType={setUserType}
           userType={userType}
+          relacao_usuario_proprietario={relacao_usuario_proprietario}
+          setRelacao_usuario_proprietario={setRelacao_usuario_proprietario}
+          relacao_usuario_principal_secundario={
+            relacao_usuario_principal_secundario
+          }
+          setRelacao_usuario_principal_secundario={
+            setRelacao_usuario_principal_secundario
+          }
         />
       )}
       {formVisibility === 3 && (

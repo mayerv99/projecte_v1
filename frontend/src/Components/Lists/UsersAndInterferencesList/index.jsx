@@ -20,7 +20,7 @@ function UsersAndInterferencesList({ setFormVisibility }) {
   const [enterpriseUsersData, setEnterpriseUsersData] = useState([]);
   const [enterpriseRelations, setEnterpriseRelations] = useState([]);
 
-  const {interferencesList} - useContext(baseContext)
+  const { interferencesList } = useContext(baseContext);
 
   const {
     selectedEnterprise,
