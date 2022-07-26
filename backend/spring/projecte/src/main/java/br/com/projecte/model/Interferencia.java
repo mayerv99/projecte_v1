@@ -37,9 +37,13 @@ public class Interferencia {
 	private Float fes_nu_profundidademediatanque;
 	private Float fes_nu_areatotaltanque;
 	private String ttc_tcu_ds;
-	private String cte_tca_ds;
-	private String cte_tsc_ds;
-	private Long cte_nu_cabecas;
+	private String cte_tca_ds_1;
+	private String cte_tsc_ds_1;
+	private Long cte_nu_cabecas_1;
+	private String cte_tca_ds_2;
+	private String cte_tsc_ds_2;
+	private Long cte_nu_cabecas_2;
+	
 	private Long nu_pessoas;
 	private String observacao_finalidade;
 	

@@ -17,3 +17,12 @@ export const createInterference = async (data) => {
 
   return newInterference;
 };
+
+export const editInterference = async (data) => {
+  const newData = await axios
+    .put("http://localhost:8080/interferencia", data)
+    .then((res) => res.data)
+    .catch((err) => console.log(err));
+
+  return newData;
+};

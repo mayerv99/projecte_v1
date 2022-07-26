@@ -16,7 +16,11 @@ import { baseContext } from "../../../Context/CompanyContext";
 
 import Select from "react-select";
 
-import { interferenceDataAdapter } from "./adapter";
+import {
+  interferenceDataAdapter,
+  returnOnlyUnformFields,
+  getSelectFieldOptions,
+} from "./adapter";
 
 import {
   interferenceType,
@@ -30,34 +34,57 @@ import {
   animalCreation,
   creationSystem,
 } from "../FieldsOptions/interferenceOptions";
-import { createInterference } from "../../../services/Interferences/interferences";
+import {
+  createInterference,
+  editInterference,
+} from "../../../services/Interferences/interferences";
 
 function InterferenceForm({ setFormVisibility }) {
   const formRef = useRef(null);
 
-  const { fetchInterferences, selectedEnterprise } = useContext(baseContext);
+  const { fetchInterferences, selectedEnterprise, selectedInterference } =
+    useContext(baseContext);
 
-  const selectFieldValuesInitialValues = {
-    int_tin_ds: {},
-    int_tsu_ds: {},
-    int_tch_ds: {},
-    int_tdm_ds: {},
-    fonte_energia: {},
-    int_tsi_ds: {},
-    fin_tfn_ds: {},
-    fin_secundaria: {},
-    fin_terciaria: {},
-    ttc_tcu_ds: {},
-    cte_tca_ds: {},
-    cts_tsc_ds: {},
-    cte_tsa_ds: {},
-    cte_tsc_ds: {},
-  };
+  const selectFieldValuesInitialValues = !selectedInterference
+    ? {
+        int_tin_ds: "",
+        int_tsu_ds: "",
+        int_tch_ds: "",
+        int_tdm_ds: "",
+        fonte_energia: "",
+        int_tsi_ds: "",
+        fin_tfn_ds: "",
+        fin_secundaria: "",
+        fin_terciaria: "",
+        ttc_tcu_ds: "",
+
+        cte_tca_ds_1: "",
+        cte_tsc_ds_1: "",
+
+        cte_tca_ds_2: "",
+        cte_tsc_ds_2: "",
+      }
+    : getSelectFieldOptions(selectedInterference);
+
   const [selectFieldsValues, setSelectFieldsValues] = useState(
     selectFieldValuesInitialValues
   );
 
+  const [isEdit, setIsEdit] = useState(false);
+
   const handleSubmit = async (data) => {
+    if (isEdit) {
+      await editInterference(
+        interferenceDataAdapter({
+          ...data,
+          ...selectFieldsValues,
+          codEmpreendimento: selectedEnterprise,
+        })
+      );
+      setIsEdit(false);
+      await fetchInterferences();
+      return setFormVisibility(0);
+    }
     await createInterference(
       interferenceDataAdapter({
         ...data,
@@ -77,8 +104,11 @@ function InterferenceForm({ setFormVisibility }) {
   };
 
   useEffect(() => {
-    console.log(selectFieldsValues);
-  }, [selectFieldsValues]);
+    if (selectedInterference) {
+      setIsEdit(true);
+      formRef.current.setData(returnOnlyUnformFields(selectedInterference));
+    }
+  }, []);
 
   const selectFieldStyle = {
     container: (base) => ({
@@ -104,6 +134,7 @@ function InterferenceForm({ setFormVisibility }) {
               width="20%"
               name="cod_interferencia"
               label="Código da interferência:"
+              disable={isEdit}
             />
             <Input
               width="20%"
@@ -122,7 +153,7 @@ function InterferenceForm({ setFormVisibility }) {
             <Select
               styles={selectFieldStyle}
               options={interferenceType || []}
-              placeholder="Tipo da interferência"
+              placeholder={"Tipo da interferência"}
               value={selectFieldsValues.int_tin_ds}
               onChange={(e) => {
                 if (e) {
@@ -290,10 +321,10 @@ function InterferenceForm({ setFormVisibility }) {
             <Select
               styles={selectFieldStyle}
               placeholder="Espécie 1"
-              value={selectFieldsValues.cte_tca_ds}
+              value={selectFieldsValues.cte_tca_ds_1}
               onChange={(e) => {
                 if (e) {
-                  setFormValues({ cte_tca_ds: e });
+                  setFormValues({ cte_tca_ds_1: e });
                 }
               }}
               options={animalCreation || []}
@@ -301,20 +332,55 @@ function InterferenceForm({ setFormVisibility }) {
             <Select
               styles={selectFieldStyle}
               placeholder="Sistema de criação animal 1"
-              value={selectFieldsValues.cte_tsc_ds}
+              value={selectFieldsValues.cte_tsc_ds_1}
               onChange={(e) => {
                 if (e) {
-                  setFormValues({ cte_tsc_ds: e });
+                  setFormValues({ cte_tsc_ds_1: e });
                 }
               }}
               options={creationSystem || []}
             />
-            <Input name="cte_nu_cabecas" label="Número de cabeças criação 1:" />
+            <Input
+              name="cte_nu_cabecas_1"
+              label="Número de cabeças criação 1:"
+            />
           </InputWrapper>
-          <Input
-            name="observacao_finalidade"
-            label="Observações em relação as finalidades:"
-          />
+          <InputWrapper>
+            <Select
+              styles={selectFieldStyle}
+              placeholder="Espécie 2"
+              value={selectFieldsValues.cte_tca_ds_2}
+              onChange={(e) => {
+                if (e) {
+                  setFormValues({ cte_tca_ds_2: e });
+                }
+              }}
+              options={animalCreation || []}
+            />
+            <Select
+              styles={selectFieldStyle}
+              placeholder="Sistema de criação animal 2"
+              value={selectFieldsValues.cte_tsc_ds_2}
+              onChange={(e) => {
+                if (e) {
+                  setFormValues({ cte_tsc_ds_2: e });
+                }
+              }}
+              options={creationSystem || []}
+            />
+            <Input
+              name="cte_nu_cabecas_2"
+              label="Número de cabeças criação 2:"
+            />
+          </InputWrapper>
+          <InputWrapper>
+            <Input name="nu_pessoas" label="Número de pessoas" width="20%" />
+            <Input
+              name="observacao_finalidade"
+              label="Observações em relação as finalidades:"
+            />
+          </InputWrapper>
+
           <FormFooter>
             <button type="submit">Salvar</button>
           </FormFooter>

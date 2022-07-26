@@ -71,7 +71,6 @@ function RelationModal({
   };
 
   const openUserSearch = (userType) => {
-    console.log({ irrigacaoStatus, wasPresent, isRegular });
     setStep(2);
     setUserType(userType);
   };

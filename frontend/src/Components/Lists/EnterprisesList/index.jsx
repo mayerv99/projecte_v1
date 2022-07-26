@@ -16,10 +16,6 @@ function EnterprisesList({ setFormVisibility }) {
     getEnterprises();
   }, []);
 
-  useEffect(() => {
-    console.log(selectedEnterprise);
-  }, [selectedEnterprise]);
-
   const handleIsSelected = (item) => {
     if (item.cod_empreendimento === selectedEnterprise) {
       return true;

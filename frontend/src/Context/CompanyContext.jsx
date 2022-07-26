@@ -18,7 +18,7 @@ export default function BaseContextProvider({ children }) {
   const [enterpriseRelationsList, setEnterpriseRelationsList] = useState([]);
 
   const [interferencesList, setInterferencesList] = useState([]);
-  const [selectedInterference, setSelectedInterference] = useState({});
+  const [selectedInterference, setSelectedInterference] = useState();
 
   const [isPrimaryUser, setIsPrimaryUser] = useState(false);
 
@@ -39,7 +39,6 @@ export default function BaseContextProvider({ children }) {
 
   const fetchInterferences = async () => {
     const interferences = await getInterferences(selectedEnterprise);
-    console.log("interferences: ", interferences);
 
     setInterferencesList(interferences);
   };

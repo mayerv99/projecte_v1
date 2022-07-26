@@ -18,7 +18,12 @@ function Input({ name, label, width, ...rest }) {
   return (
     <Wrapper width={width}>
       <label htmlFor={fieldName}>{label}</label>
-      <TextInput error={error} ref={inputRef} {...rest} />
+      <TextInput
+        error={error}
+        ref={inputRef}
+        {...rest}
+        defaultValue={defaultValue}
+      />
       {/* <ErrorMessage>Mensagem de erro</ErrorMessage> */}
     </Wrapper>
   );

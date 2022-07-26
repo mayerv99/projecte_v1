@@ -33,6 +33,8 @@ function CardsContainer() {
   const [isRegular, setIsRegular] = useState(false);
   const [wasPresent, setWasPresent] = useState(false);
 
+  const [isEditInterference, setIsEditInterference] = useState(false);
+
   const setFormValues = (values) => {
     setUserAndRelationFormData((prevsValues) => ({
       ...prevsValues,
@@ -73,14 +75,6 @@ function CardsContainer() {
     await createSecondaryUser(newSecondaryUserData.relationData);
     return fetchUsers();
   };
-
-  useEffect(() => {
-    console.log(userAndRelationFormData);
-  }, [userAndRelationFormData]);
-
-  useEffect(() => {
-    console.log("userToBeSelected: ", userToBeSelected);
-  }, [userToBeSelected]);
 
   return (
     <Wrapper>
@@ -124,13 +118,20 @@ function CardsContainer() {
         />
       )}
       {formVisibility === 4 && (
-        <InterferenceForm setFormVisibility={setFormVisibility} />
+        <InterferenceForm
+          setFormVisibility={setFormVisibility}
+          isEdit={isEditInterference}
+          setIsEdit={setIsEditInterference}
+        />
       )}
       <Card>
         <EnterprisesList setFormVisibility={setFormVisibility} />
       </Card>
       <Card>
-        <UsersAndInterferencesList setFormVisibility={setFormVisibility} />
+        <UsersAndInterferencesList
+          setFormVisibility={setFormVisibility}
+          setIsEditInterference={setIsEditInterference}
+        />
       </Card>
     </Wrapper>
   );

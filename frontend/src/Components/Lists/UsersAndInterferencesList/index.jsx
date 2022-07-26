@@ -15,12 +15,13 @@ import {
   ListItem,
 } from "./styled";
 
-function UsersAndInterferencesList({ setFormVisibility }) {
+function UsersAndInterferencesList({
+  setFormVisibility,
+  setIsEditInterference,
+}) {
   const [selectedOption, setSelectedOption] = useState("user");
   const [enterpriseUsersData, setEnterpriseUsersData] = useState([]);
   const [enterpriseRelations, setEnterpriseRelations] = useState([]);
-
-  const { interferencesList, fetchInterferences } = useContext(baseContext);
 
   const {
     selectedEnterprise,
@@ -28,6 +29,9 @@ function UsersAndInterferencesList({ setFormVisibility }) {
     setUsersList,
     fetchUsers,
     enterpriseRelationsList,
+    interferencesList,
+    fetchInterferences,
+    setSelectedInterference,
   } = useContext(baseContext);
 
   const openUserForm = () => {
@@ -35,6 +39,12 @@ function UsersAndInterferencesList({ setFormVisibility }) {
   };
 
   const openInterferenceForm = () => {
+    setFormVisibility(4);
+  };
+
+  const editInterference = (interference) => {
+    setIsEditInterference(true);
+    setSelectedInterference(interference);
     setFormVisibility(4);
   };
 
@@ -90,7 +100,14 @@ function UsersAndInterferencesList({ setFormVisibility }) {
               <ListItem>{user.cpf_cnpj_usuario}</ListItem>
             ))
           : interferencesList.map((interference) => (
-              <ListItem>{interference.cod_interferencia}</ListItem>
+              <ListItem>
+                {interference.cod_interferencia}
+                <div className="buttonDiv">
+                  <button onClick={() => editInterference(interference)}>
+                    E
+                  </button>
+                </div>
+              </ListItem>
             ))}
       </ListContainer>
     </Wrapper>
