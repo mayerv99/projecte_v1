@@ -20,7 +20,7 @@ function UsersAndInterferencesList({ setFormVisibility }) {
   const [enterpriseUsersData, setEnterpriseUsersData] = useState([]);
   const [enterpriseRelations, setEnterpriseRelations] = useState([]);
 
-  const { interferencesList } = useContext(baseContext);
+  const { interferencesList, fetchInterferences } = useContext(baseContext);
 
   const {
     selectedEnterprise,
@@ -44,13 +44,10 @@ function UsersAndInterferencesList({ setFormVisibility }) {
 
   const handleData = async () => {
     if (selectedEnterprise) {
-      if (selectedOption === "user") {
-        const allUsers = await getAllUsers();
-        setUsersList(allUsers);
-      }
-      // if (selectedOption === "interference") {
-      //   const interferences = await getInterferences(selectedEnterprise);
-      // }
+      const allUsers = await getAllUsers();
+      setUsersList(allUsers);
+
+      const interferences = await fetchInterferences();
     }
   };
 
@@ -92,7 +89,9 @@ function UsersAndInterferencesList({ setFormVisibility }) {
           ? enterpriseRelationsList.map((user) => (
               <ListItem>{user.cpf_cnpj_usuario}</ListItem>
             ))
-          : interferencesList.map((interference) => <ListItem></ListItem>)}
+          : interferencesList.map((interference) => (
+              <ListItem>{interference.cod_interferencia}</ListItem>
+            ))}
       </ListContainer>
     </Wrapper>
   );

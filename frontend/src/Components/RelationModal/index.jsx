@@ -8,6 +8,7 @@ import {
   InputDiv,
   SearchDiv,
   ListItem,
+  RadioDiv,
 } from "./styled";
 
 import { baseContext } from "../../Context/CompanyContext";
@@ -44,6 +45,12 @@ function RelationModal({
   setRelacao_usuario_proprietario,
   relacao_usuario_principal_secundario,
   setRelacao_usuario_principal_secundario,
+  irrigacaoStatus,
+  setIrrigacaoStatus,
+  wasPresent,
+  setWasPresent,
+  isRegular,
+  setIsRegular,
 }) {
   const { selectedEnterprise, fetchUsers } = useContext(baseContext);
 
@@ -64,6 +71,7 @@ function RelationModal({
   };
 
   const openUserSearch = (userType) => {
+    console.log({ irrigacaoStatus, wasPresent, isRegular });
     setStep(2);
     setUserType(userType);
   };
@@ -89,8 +97,17 @@ function RelationModal({
         relacao_usuario_proprietario: relacao_usuario_proprietario.value,
         codEmpreendimento: selectedEnterprise,
         cpf_cnpj_usuario: userToBeSelected.emp_nu_cpfcnpj,
+        possui_area_plantada: irrigacaoStatus,
+        regularizado: isRegular,
+        presente_no_local: wasPresent,
       },
     };
+
+    setFormVisibility(0);
+    if (userType === "primary") {
+      await createPrimaryUser(newPrimaryUserData.relationData);
+      return fetchUsers();
+    }
     const newSecondaryUserData = {
       relationData: {
         ...userAndRelationFormData.relationData,
@@ -98,13 +115,11 @@ function RelationModal({
           relacao_usuario_principal_secundario.value,
         codEmpreendimento: selectedEnterprise,
         cpf_cnpj_usuario: userToBeSelected.emp_nu_cpfcnpj,
+        situacao_irrigacao: irrigacaoStatus,
+        regularizado: isRegular,
+        presente_no_local: wasPresent,
       },
     };
-    setFormVisibility(0);
-    if (userType === "primary") {
-      await createPrimaryUser(newPrimaryUserData.relationData);
-      return fetchUsers();
-    }
     await createSecondaryUser(newSecondaryUserData.relationData);
     return fetchUsers();
   };
@@ -112,7 +127,12 @@ function RelationModal({
   const handleSubmitPrimary = (data) => {
     setUserAndRelationFormData({
       userType: "primary",
-      relationData: data,
+      relationData: {
+        ...data,
+        possui_area_plantada: irrigacaoStatus,
+        regularizado: isRegular,
+        presente_no_local: wasPresent,
+      },
     });
     setStep(3);
   };
@@ -120,7 +140,12 @@ function RelationModal({
   const handleSubmitSecondary = (data) => {
     setUserAndRelationFormData({
       userType: "secondary",
-      relationData: data,
+      relationData: {
+        ...data,
+        situacao_irrigacao: irrigacaoStatus,
+        regularizado: isRegular,
+        presente_no_local: wasPresent,
+      },
     });
     setStep(3);
   };
@@ -174,15 +199,75 @@ function RelationModal({
               />
               <Input name="int_nu_cnarg" label="Num. CNARH" />
               <Input name="int_cd_regla" label="ID REGLA" />
-              <Input
-                name="possui_area_plantada"
-                label="Possui área irrigada plantada no momento do cadastro?"
-              />
-              <Input name="regularizado" label="É Regularizado?" />
-              <Input
-                name="presente_no_local"
-                label="Estava presente no local?"
-              />
+              <RadioDiv>
+                <p>Possui área irrigada no momento do cadastro?</p>
+                <div className="inputDiv">
+                  <input
+                    type="radio"
+                    name="possui_area_plantada"
+                    value={true}
+                    checked={irrigacaoStatus}
+                    onChange={() => setIrrigacaoStatus(true)}
+                  />
+                  <label>Sim</label>
+                </div>
+                <div className="inputDiv">
+                  <input
+                    type="radio"
+                    name="possui_area_plantada"
+                    value={false}
+                    checked={!irrigacaoStatus}
+                    onChange={() => setIrrigacaoStatus(false)}
+                  />
+                  <label>Não</label>
+                </div>
+              </RadioDiv>
+              <RadioDiv>
+                <p>É regularizado?</p>
+                <div className="inputDiv">
+                  <input
+                    type="radio"
+                    name="isRegular"
+                    value={true}
+                    checked={isRegular}
+                    onChange={() => setIsRegular(true)}
+                  />
+                  <label>Sim</label>
+                </div>
+                <div className="inputDiv">
+                  <input
+                    type="radio"
+                    name="isRegular"
+                    value={false}
+                    checked={!isRegular}
+                    onChange={() => setIsRegular(false)}
+                  />
+                  <label>Não</label>
+                </div>
+              </RadioDiv>
+              <RadioDiv>
+                <p>Estava presente no local?</p>
+                <div className="inputDiv">
+                  <input
+                    type="radio"
+                    name="wasPresent"
+                    value={true}
+                    checked={wasPresent}
+                    onChange={() => setWasPresent(true)}
+                  />
+                  <label>Sim</label>
+                </div>
+                <div className="inputDiv">
+                  <input
+                    type="radio"
+                    name="wasPresent"
+                    value={false}
+                    checked={!wasPresent}
+                    onChange={() => setWasPresent(false)}
+                  />
+                  <label>Não</label>
+                </div>
+              </RadioDiv>
               <Input
                 name="outras_informacoes"
                 label="Outras informações relevantes"
@@ -205,15 +290,75 @@ function RelationModal({
               />
               <Input name="int_nu_cnarh" label="Num. CNARH" />
               <Input name="int_cd_regla" label="ID REGLA" />
-              <Input
-                name="situacao_irrigacao"
-                label="Possui área irrigada no momento do cadastro?"
-              />
-              <Input name="regularizado" label="É regularizado? " />
-              <Input
-                name="presente_no_local"
-                label="Estava presente no local?"
-              />
+              <RadioDiv>
+                <p>Possui área irrigada no momento do cadastro?</p>
+                <div className="inputDiv">
+                  <input
+                    type="radio"
+                    name="situacao_irrigacao"
+                    value={true}
+                    checked={irrigacaoStatus}
+                    onChange={() => setIrrigacaoStatus(true)}
+                  />
+                  <label>Sim</label>
+                </div>
+                <div className="inputDiv">
+                  <input
+                    type="radio"
+                    name="situacao_irrigacao"
+                    value={false}
+                    checked={!irrigacaoStatus}
+                    onChange={() => setIrrigacaoStatus(false)}
+                  />
+                  <label>Não</label>
+                </div>
+              </RadioDiv>
+              <RadioDiv>
+                <p>É regularizado?</p>
+                <div className="inputDiv">
+                  <input
+                    type="radio"
+                    name="isRegular"
+                    value={true}
+                    checked={isRegular}
+                    onChange={() => setIsRegular(true)}
+                  />
+                  <label>Sim</label>
+                </div>
+                <div className="inputDiv">
+                  <input
+                    type="radio"
+                    name="isRegular"
+                    value={false}
+                    checked={!isRegular}
+                    onChange={() => setIsRegular(false)}
+                  />
+                  <label>Não</label>
+                </div>
+              </RadioDiv>
+              <RadioDiv>
+                <p>Estava presente no local?</p>
+                <div className="inputDiv">
+                  <input
+                    type="radio"
+                    name="wasPresent"
+                    value={true}
+                    checked={wasPresent}
+                    onChange={() => setWasPresent(true)}
+                  />
+                  <label>Sim</label>
+                </div>
+                <div className="inputDiv">
+                  <input
+                    type="radio"
+                    name="wasPresent"
+                    value={false}
+                    checked={!wasPresent}
+                    onChange={() => setWasPresent(false)}
+                  />
+                  <label>Não</label>
+                </div>
+              </RadioDiv>
               <Input
                 name="outras_informacoes"
                 label="Outras informações relevantes"

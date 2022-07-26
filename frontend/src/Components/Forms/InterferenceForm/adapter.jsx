@@ -1,0 +1,35 @@
+export const interferenceDataAdapter = ({
+  cte_tca_ds,
+  cte_tsa_ds,
+  cte_tsc_ds,
+  cts_tsc_ds,
+  fin_secundaria,
+  fin_terciaria,
+  fin_tfn_ds,
+  fonte_energia,
+  int_tch_ds,
+  int_tdm_ds,
+  int_tin_ds,
+  int_tsi_ds,
+  int_tsu_ds,
+  ttc_tcu_ds,
+  ...rest
+}) => {
+  return {
+    ...rest,
+    cte_tca_ds: cte_tca_ds.value,
+    cte_tsa_ds: cte_tsa_ds.value,
+    cte_tsc_ds: cte_tsc_ds.value,
+    cts_tsc_ds: cts_tsc_ds.value,
+    fin_secundaria: fin_secundaria.value,
+    fin_terciaria: fin_terciaria.value,
+    fin_tfn_ds: fin_tfn_ds.value,
+    fonte_energia: fonte_energia.value,
+    int_tch_ds: int_tch_ds.value,
+    int_tdm_ds: int_tdm_ds.value,
+    int_tin_ds: int_tin_ds.value,
+    int_tsi_ds: int_tsi_ds.value,
+    int_tsu_ds: int_tsu_ds.value,
+    ttc_tcu_ds: ttc_tcu_ds.value,
+  };
+};

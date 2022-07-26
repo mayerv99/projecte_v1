@@ -124,3 +124,20 @@ export const ListItem = styled.div`
 
   cursor: pointer;
 `;
+
+export const RadioDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 10px;
+
+  .inputDiv {
+    display: flex;
+    flex-direction: row;
+    margin-right: auto;
+
+    input {
+      margin-right: 10px;
+    }
+  }
+`;

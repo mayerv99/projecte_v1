@@ -6,6 +6,7 @@ import EnterprisesList from "../Lists/EnterprisesList";
 import UsersAndInterferencesList from "../Lists/UsersAndInterferencesList";
 import UserForm from "../Forms/UserForm";
 import RelationModal from "../RelationModal";
+import InterferenceForm from "../Forms/InterferenceForm";
 
 import { Wrapper } from "./styled";
 import { baseContext } from "../../Context/CompanyContext";
@@ -28,6 +29,17 @@ function CardsContainer() {
     setRelacao_usuario_principal_secundario,
   ] = useState();
 
+  const [irrigacaoStatus, setIrrigacaoStatus] = useState(false);
+  const [isRegular, setIsRegular] = useState(false);
+  const [wasPresent, setWasPresent] = useState(false);
+
+  const setFormValues = (values) => {
+    setUserAndRelationFormData((prevsValues) => ({
+      ...prevsValues,
+      ...values,
+    }));
+  };
+
   const createRelationWithExistingUser = async (userId) => {
     const newPrimaryUserData = {
       relationData: {
@@ -35,16 +47,9 @@ function CardsContainer() {
         relacao_usuario_proprietario: relacao_usuario_proprietario.value,
         codEmpreendimento: selectedEnterprise,
         cpf_cnpj_usuario: userId,
-      },
-    };
-
-    const newSecondaryUserData = {
-      relationData: {
-        ...userAndRelationFormData.relationData,
-        relacao_usuario_principal_secundario:
-          relacao_usuario_principal_secundario.value,
-        codEmpreendimento: selectedEnterprise,
-        cpf_cnpj_usuario: userId,
+        possui_area_plantada: irrigacaoStatus,
+        regularizado: isRegular,
+        presente_no_local: wasPresent,
       },
     };
 
@@ -53,6 +58,18 @@ function CardsContainer() {
       await createPrimaryUser(newPrimaryUserData.relationData);
       return fetchUsers();
     }
+    const newSecondaryUserData = {
+      relationData: {
+        ...userAndRelationFormData.relationData,
+        relacao_usuario_principal_secundario:
+          relacao_usuario_principal_secundario.value,
+        codEmpreendimento: selectedEnterprise,
+        cpf_cnpj_usuario: userId,
+        situacao_irrigacao: irrigacaoStatus,
+        regularizado: isRegular,
+        presente_no_local: wasPresent,
+      },
+    };
     await createSecondaryUser(newSecondaryUserData.relationData);
     return fetchUsers();
   };
@@ -87,6 +104,13 @@ function CardsContainer() {
           setRelacao_usuario_principal_secundario={
             setRelacao_usuario_principal_secundario
           }
+          setFormValues={setFormValues}
+          irrigacaoStatus={irrigacaoStatus}
+          setIrrigacaoStatus={setIrrigacaoStatus}
+          wasPresent={wasPresent}
+          setWasPresent={setWasPresent}
+          isRegular={isRegular}
+          setIsRegular={setIsRegular}
         />
       )}
       {formVisibility === 3 && (
@@ -96,11 +120,12 @@ function CardsContainer() {
           userToBeSelected={userToBeSelected}
           setUserToBeSelected={setUserToBeSelected}
           createRelationWithExistingUser={createRelationWithExistingUser}
+          setFormValues={setFormValues}
         />
       )}
-      {/* {formVisibility === 3 && (
+      {formVisibility === 4 && (
         <InterferenceForm setFormVisibility={setFormVisibility} />
-      )} */}
+      )}
       <Card>
         <EnterprisesList setFormVisibility={setFormVisibility} />
       </Card>

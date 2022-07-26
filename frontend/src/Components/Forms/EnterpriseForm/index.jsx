@@ -21,10 +21,14 @@ function EnterpriseForm({ setFormVisibility }) {
 
   const { fecthEnterprises } = useContext(baseContext);
 
+  const [hasWaterUse, setHasWaterUse] = useState(false);
+
   const handleSubmit = async (data) => {
-    console.log(data);
     const res = await axios
-      .post("http://localhost:8080/empreendimento", data)
+      .post("http://localhost:8080/empreendimento", {
+        ...data,
+        ha_uso_de_agua: hasWaterUse,
+      })
       .then((res) => res.data);
 
     await fecthEnterprises();
@@ -42,7 +46,6 @@ function EnterpriseForm({ setFormVisibility }) {
             <Input
               name="cod_empreendimento"
               label="Código do empreendimento: "
-              placeholder=""
               width="20%"
             />
             <Input
@@ -78,19 +81,29 @@ function EnterpriseForm({ setFormVisibility }) {
               fontWeight: 700,
             }}
           >
-            Há uso de água
+            Há uso de água?
           </h4>
-          <div style={{ height: 50 }}>
-            <input name="Water" id="waterTrue" type="radio" value={true} />
-            <label style={{ marginLeft: 10 }} htmlFor="waterTrue">
-              Sim
-            </label>
-          </div>
-          <div>
-            <input name="Water" id="waterFalse" type="radio" value={false} />
-            <label style={{ marginLeft: 10 }} htmlFor="waterFalse">
-              Não
-            </label>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            <div style={{ display: "flex", flexDirection: "row", gap: 5 }}>
+              <input
+                type="radio"
+                checked={hasWaterUse}
+                name="waterUse"
+                value={true}
+                onChange={() => setHasWaterUse(true)}
+              />
+              <label>Sim</label>
+            </div>
+            <div style={{ display: "flex", flexDirection: "row", gap: 5 }}>
+              <input
+                type="radio"
+                checked={!hasWaterUse}
+                name="waterUse"
+                value={false}
+                onChange={() => setHasWaterUse(false)}
+              />
+              <label>Não</label>
+            </div>
           </div>
 
           <FormFooter>

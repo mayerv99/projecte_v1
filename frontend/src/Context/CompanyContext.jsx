@@ -5,6 +5,8 @@ import { getAllEnterprises } from "../services/Enterprise/enterprises";
 import { getPrimaryUsers } from "../services/Users/primaryUsers";
 import { getSecondaryUser } from "../services/Users/secondaryUsers";
 
+import { getInterferences } from "../services/Interferences/interferences";
+
 export const baseContext = createContext();
 
 export default function BaseContextProvider({ children }) {
@@ -35,6 +37,13 @@ export default function BaseContextProvider({ children }) {
     setEnterpriseRelationsList(usersArray);
   };
 
+  const fetchInterferences = async () => {
+    const interferences = await getInterferences(selectedEnterprise);
+    console.log("interferences: ", interferences);
+
+    setInterferencesList(interferences);
+  };
+
   return (
     <baseContext.Provider
       value={{
@@ -56,6 +65,7 @@ export default function BaseContextProvider({ children }) {
         enterpriseRelationsList,
         setEnterpriseRelationsList,
         fetchUsers,
+        fetchInterferences,
       }}
     >
       {children}
