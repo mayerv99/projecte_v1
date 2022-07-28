@@ -16,6 +16,8 @@ import { baseContext } from "../../../Context/CompanyContext";
 
 import { createNewUser } from "../../../services/Users/Users";
 
+import MaskedInput from "../Input/MaskedInput";
+
 function UserForm({
   setFormVisibility,
   setUserToBeSelected,
@@ -24,7 +26,10 @@ function UserForm({
   const formRef = useRef(null);
 
   const handleSubmit = async (data) => {
-    await createNewUser(data);
+    await createNewUser({
+      ...data,
+      emp_nu_telefone: data.emp_nu_telefone.replace("-", ""),
+    });
     setUserToBeSelected(data);
 
     createRelationWithExistingUser(data.emp_nu_cpfcnpj);
@@ -41,11 +46,12 @@ function UserForm({
           <Input name="emp_nm_usuario" label="Nome do usuário:" />
           <InputWrapper>
             <Input name="emp_nu_ddd" type="number" label="DDD:" width="5%" />
-            <Input
+            <MaskedInput
               name="emp_nu_telefone"
               type="number"
               label="Telefone:"
               width="15%"
+              inputMask="xxxxx-xxxx"
             />
             <Input name="emp_ds_emailresponsavel" label="E-mail:" width="80%" />
           </InputWrapper>{" "}
@@ -63,7 +69,12 @@ function UserForm({
           <Input name="emp_nm_municipio" label="Município:" />
           <InputWrapper>
             <Input name="emp_sg_uf" label="UF:" width="10%" />
-            <Input name="emp_nu_cependereco" label="CEP:" width="45%" />
+            <MaskedInput
+              inputMask="xxxxx-xxx"
+              name="emp_nu_cependereco"
+              label="CEP:"
+              width="45%"
+            />
             <Input
               width="45%"
               name="emp_nu_caixapostal"

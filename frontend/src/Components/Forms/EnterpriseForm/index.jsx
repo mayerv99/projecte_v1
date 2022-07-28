@@ -15,6 +15,7 @@ import Input from "../Input";
 import axios from "axios";
 
 import { baseContext } from "../../../Context/CompanyContext";
+import MaskedInput from "../Input/MaskedInput";
 
 function EnterpriseForm({ setFormVisibility }) {
   const formRef = useRef(null);
@@ -22,6 +23,7 @@ function EnterpriseForm({ setFormVisibility }) {
   const { fecthEnterprises } = useContext(baseContext);
 
   const [hasWaterUse, setHasWaterUse] = useState(false);
+  const [isCPF, setIsCPF] = useState(true);
 
   const handleSubmit = async (data) => {
     const res = await axios
@@ -43,10 +45,11 @@ function EnterpriseForm({ setFormVisibility }) {
       <FormContainer>
         <Form ref={formRef} onSubmit={handleSubmit}>
           <InputWrapper>
-            <Input
+            <MaskedInput
               name="cod_empreendimento"
               label="Código do empreendimento: "
               width="20%"
+              inputMask="exxxx"
             />
             <Input
               name="emp_nm_empreeendimento"
