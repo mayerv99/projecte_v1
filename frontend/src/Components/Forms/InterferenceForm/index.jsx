@@ -106,6 +106,7 @@ function InterferenceForm({ setFormVisibility }) {
   useEffect(() => {
     if (selectedInterference) {
       setIsEdit(true);
+      console.log(returnOnlyUnformFields(selectedInterference));
       formRef.current.setData(returnOnlyUnformFields(selectedInterference));
     }
   }, []);
@@ -129,6 +130,17 @@ function InterferenceForm({ setFormVisibility }) {
       </Header>
       <FormContainer>
         <Form ref={formRef} onSubmit={handleSubmit}>
+          <h2
+            style={{
+              marginTop: 20,
+              width: "100%",
+              borderBottom: "1px solid #e9e9e9",
+              paddingBottom: 20,
+              marginBottom: 20,
+            }}
+          >
+            Empreendimento: {selectedEnterprise}
+          </h2>
           <InputWrapper>
             <Input
               width="20%"
@@ -173,31 +185,7 @@ function InterferenceForm({ setFormVisibility }) {
               }}
             />
           </InputWrapper>
-
-          <InputWrapper>
-            <Input name="int_nm_corpohidrico" label="Nome do corpo hídrico:" />
-            {/* Pos campo */}
-            <Select
-              styles={selectFieldStyle}
-              options={waterBodyType || []}
-              value={selectFieldsValues.int_tch_ds}
-              placeholder="Tipo do corpo hídrico:"
-              onChange={(e) => {
-                if (e) {
-                  setFormValues({ int_tch_ds: e });
-                }
-              }}
-            />
-          </InputWrapper>
-          <InputWrapper>
-            <Input name="int_nu_latitude" label="Latidude:" type="number" />
-            <Input name="int_nu_longitude" label="Longitude:" type="number" />
-          </InputWrapper>
-          <InputWrapper>
-            <Input width="20%" name="ing_sg_ufminicipio" label="UF:" />
-            <Input name="ing_nm_municipio" label="Município:" />
-          </InputWrapper>
-          {/* ACABA O POS CAMPO */}
+          <Input name="int_nm_corpohidrico" label="Nome do corpo hídrico:" />
           <InputWrapper>
             <Select
               styles={selectFieldStyle}
@@ -278,7 +266,6 @@ function InterferenceForm({ setFormVisibility }) {
               options={goalOptions || []}
             />
           </InputWrapper>
-
           <InputWrapper>
             <Input
               name="numero_tanques"
@@ -380,6 +367,37 @@ function InterferenceForm({ setFormVisibility }) {
               label="Observações em relação as finalidades:"
             />
           </InputWrapper>
+          <>
+            <h2
+              style={{
+                marginTop: 20,
+                width: "100%",
+                borderTop: "1px solid #e9e9e9",
+                paddingTop: 20,
+              }}
+            >
+              Pós campo
+            </h2>
+            <Select
+              styles={selectFieldStyle}
+              options={waterBodyType || []}
+              value={selectFieldsValues.int_tch_ds}
+              placeholder="Tipo do corpo hídrico:"
+              onChange={(e) => {
+                if (e) {
+                  setFormValues({ int_tch_ds: e });
+                }
+              }}
+            />
+            <InputWrapper>
+              <Input name="int_nu_latitude" label="Latidude:" type="number" />
+              <Input name="int_nu_longitude" label="Longitude:" type="number" />
+            </InputWrapper>
+            <InputWrapper>
+              <Input width="20%" name="ing_sg_ufmunicipio" label="UF:" />
+              <Input name="ing_nm_municipio" label="Município:" />
+            </InputWrapper>
+          </>
 
           <FormFooter>
             <button type="submit">Salvar</button>

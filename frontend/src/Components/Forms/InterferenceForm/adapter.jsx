@@ -25,7 +25,7 @@ export const interferenceDataAdapter = ({
     fin_terciaria: fin_terciaria.value,
     fin_tfn_ds: fin_tfn_ds.value,
     fonte_energia: fonte_energia.value,
-    int_tch_ds: int_tch_ds.value,
+    ...(int_tch_ds && { int_tch_ds: int_tch_ds.value }),
     int_tdm_ds: int_tdm_ds.value,
     int_tin_ds: int_tin_ds.value,
     int_tsi_ds: int_tsi_ds.value,
@@ -64,7 +64,7 @@ export const getSelectFieldOptions = ({
     fin_terciaria: { label: fin_terciaria, value: fin_terciaria },
     fin_tfn_ds: { label: fin_tfn_ds, value: fin_tfn_ds },
     fonte_energia: { label: fonte_energia, value: fonte_energia },
-    int_tch_ds: { label: int_tch_ds, value: int_tch_ds },
+    int_tch_ds: int_tch_ds ? { label: int_tch_ds, value: int_tch_ds } : "",
     int_tdm_ds: { label: int_tdm_ds, value: int_tdm_ds },
     int_tin_ds: { label: int_tin_ds, value: int_tin_ds },
     int_tsi_ds: { label: int_tsi_ds, value: int_tsi_ds },
@@ -76,6 +76,7 @@ export const getSelectFieldOptions = ({
 };
 
 export const returnOnlyUnformFields = (props) => {
+  console.log("unformFields: ", props);
   return {
     cod_interferencia: props.cod_interferencia,
     unidade_consumidora: props.unidade_consumidora,
@@ -84,7 +85,7 @@ export const returnOnlyUnformFields = (props) => {
     int_nm_corpohidrico: props.int_nm_corpohidrico,
     int_nu_latitude: props.int_nu_latitude,
     int_nu_longitude: props.int_nu_longitude,
-    ing_sg_ufminicipio: props.ing_sg_ufminicipio,
+    ing_sg_ufmunicipio: props.ing_sg_ufmunicipio,
     ing_nm_municipio: props.ing_nm_municipio,
     numero_tanques: props.numero_tanques,
     fes_nu_profundidademediatanque: props.fes_nu_areatotaltanque,

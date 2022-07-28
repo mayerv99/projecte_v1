@@ -151,6 +151,7 @@ function RelationModal({
 
   useEffect(() => {
     checkButtonDisabled();
+    setIsChecked(false);
   }, []);
 
   return (
@@ -278,15 +279,21 @@ function RelationModal({
           ) : (
             <Form ref={formRef} onSubmit={handleSubmitSecondary}>
               <div className="header">Cadastro de usuário secundário</div>
-              <Select
-                value={relacao_usuario_principal_secundario}
-                options={secondaryUserPrimaryUserRelation || []}
-                onChange={(e) => {
-                  if (e) {
-                    setRelacao_usuario_principal_secundario(e);
-                  }
-                }}
-              />
+              <>
+                <label>
+                  Relação usuário secundário com o usuário principal:
+                </label>
+                <Select
+                  value={relacao_usuario_principal_secundario}
+                  options={secondaryUserPrimaryUserRelation || []}
+                  onChange={(e) => {
+                    if (e) {
+                      setRelacao_usuario_principal_secundario(e);
+                    }
+                  }}
+                />
+              </>
+
               <Input name="int_nu_cnarh" label="Num. CNARH" />
               <Input name="int_cd_regla" label="ID REGLA" />
               <RadioDiv>
