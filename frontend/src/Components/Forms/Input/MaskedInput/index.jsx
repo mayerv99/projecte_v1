@@ -28,6 +28,10 @@ export default function MaskedInput({
     });
   }, [ref.current, fieldName]);
 
+  useEffect(() => {
+    setMask(defaultValue || "");
+  }, [defaultValue]);
+
   const handleMask = (e) => {
     const { value } = e.target;
     return setMask(value);
@@ -43,6 +47,7 @@ export default function MaskedInput({
       value={mask}
       onChange={(e) => handleMask(e)}
       ref={ref}
+      defaultValue={defaultValue}
     >
       {(inputProps) => (
         <Wrapper width={width}>

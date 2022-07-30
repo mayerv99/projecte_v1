@@ -15,6 +15,8 @@ import {
   ListItem,
 } from "./styled";
 
+import { EditIco } from "../../../assets/icons/EditIco.svg";
+
 function UsersAndInterferencesList({
   setFormVisibility,
   setIsEditInterference,
@@ -104,7 +106,7 @@ function UsersAndInterferencesList({
                 {interference.cod_interferencia}
                 <div className="buttonDiv">
                   <button onClick={() => editInterference(interference)}>
-                    E
+                    <img src={EditIco} />
                   </button>
                 </div>
               </ListItem>

@@ -6,6 +6,7 @@ import {
   FormContainer,
   InputWrapper,
   FormFooter,
+  AquacultureDiv,
 } from "./styled";
 
 import { Form } from "@unform/web";
@@ -15,6 +16,8 @@ import Input from "../Input";
 import { baseContext } from "../../../Context/CompanyContext";
 
 import Select from "react-select";
+
+import MaskedInput from "../Input/MaskedInput";
 
 import {
   interferenceDataAdapter,
@@ -71,11 +74,64 @@ function InterferenceForm({ setFormVisibility }) {
   );
 
   const [isEdit, setIsEdit] = useState(false);
+  const [hasAquaculture, setHasAquaculture] = useState(false);
+  const [hasAnimalCreation, setHasAnimalCreation] = useState(false);
+  const [hasHumanUse, setHasHumanUse] = useState(false);
+
+  const handleGoals = () => {
+    let goals = {
+      primary: selectFieldsValues.fin_tfn_ds.value,
+      secondary: selectFieldsValues.fin_secundaria.value,
+      third: selectFieldsValues.fin_terciaria.value,
+    };
+    const goalsArray = Object.keys(goals).map((key) => {
+      return goals[key];
+    });
+    console.log(goalsArray);
+
+    if (
+      goalsArray.includes("Aquicultura em tanque escavado") ||
+      goalsArray.includes("Aquicultura em tanque rede")
+    ) {
+      console.log(1);
+      setHasAquaculture(true);
+    } else if (
+      !goalsArray.includes("Aquicultura em tanque escavado") ||
+      !goalsArray.includes("Aquicultura em tanque rede")
+    ) {
+      console.log(2);
+
+      setHasAquaculture(false);
+    }
+    if (goalsArray.includes("Criação animal")) {
+      console.log(3);
+
+      setHasAnimalCreation(true);
+    }
+    if (!goalsArray.includes("Criação animal")) {
+      console.log(4);
+
+      setHasAnimalCreation(false);
+    }
+    if (goalsArray.includes("Usos múltiplos consumo humano")) {
+      console.log(5);
+
+      setHasHumanUse(true);
+    }
+    if (!goalsArray.includes("Usos múltiplos consumo humano")) {
+      console.log(6);
+
+      setHasHumanUse(false);
+    }
+  };
 
   const handleSubmit = async (data) => {
     if (isEdit) {
       await editInterference(
         interferenceDataAdapter({
+          hasAquaculture,
+          hasAnimalCreation,
+          hasHumanUse,
           ...data,
           ...selectFieldsValues,
           codEmpreendimento: selectedEnterprise,
@@ -106,10 +162,13 @@ function InterferenceForm({ setFormVisibility }) {
   useEffect(() => {
     if (selectedInterference) {
       setIsEdit(true);
-      console.log(returnOnlyUnformFields(selectedInterference));
       formRef.current.setData(returnOnlyUnformFields(selectedInterference));
     }
   }, []);
+
+  useEffect(() => {
+    handleGoals();
+  }, [selectFieldsValues]);
 
   const selectFieldStyle = {
     container: (base) => ({
@@ -146,7 +205,6 @@ function InterferenceForm({ setFormVisibility }) {
               width="20%"
               name="cod_interferencia"
               label="Código da interferência:"
-              disable={isEdit}
             />
             <Input
               width="20%"
@@ -184,6 +242,33 @@ function InterferenceForm({ setFormVisibility }) {
                 }
               }}
             />
+          </InputWrapper>
+          <Select
+            styles={selectFieldStyle}
+            options={waterBodyType || []}
+            value={selectFieldsValues.int_tch_ds}
+            placeholder="Tipo do corpo hídrico:"
+            onChange={(e) => {
+              if (e) {
+                setFormValues({ int_tch_ds: e });
+              }
+            }}
+          />
+          <InputWrapper>
+            <Input
+              name="int_nu_latitude"
+              label="Latidude:"
+              // inputMask={`xx° xx' xx''`}
+            />
+            <Input
+              name="int_nu_longitude"
+              label="Longitude:"
+              // inputMask={`xx° xx' xx''`}
+            />
+          </InputWrapper>
+          <InputWrapper>
+            <Input width="20%" name="ing_sg_ufmunicipio" label="UF:" />
+            <Input name="ing_nm_municipio" label="Município:" />
           </InputWrapper>
           <Input name="int_nm_corpohidrico" label="Nome do corpo hídrico:" />
           <InputWrapper>
@@ -266,108 +351,14 @@ function InterferenceForm({ setFormVisibility }) {
               options={goalOptions || []}
             />
           </InputWrapper>
-          <InputWrapper>
+
+          <AquacultureDiv hidden={!hasHumanUse}>
             <Input
-              name="numero_tanques"
-              type="number"
-              label="Número de tanques finalidade aquicultura:"
+              name="nu_pessoas"
+              label="Número de pessoas consumo humano:"
             />
-            <Input
-              name="fes_nu_profundidademediatanque"
-              type="number"
-              label="Profundidade (m) tanques aquicultura:"
-            />
-            <Input
-              name="fes_nu_areatotaltanque"
-              type="number"
-              label="Área total dos tanques (m2) finalidade aquicultura:"
-            />
-          </InputWrapper>
-          <Select
-            styles={selectFieldStyle}
-            placeholder="Cultivo finalidade aquicultura"
-            value={selectFieldsValues.ttc_tcu_ds}
-            options={cultivationType || []}
-            onChange={(e) => {
-              if (e) {
-                setFormValues({ ttc_tcu_ds: e });
-              }
-            }}
-          />
-          <h2
-            style={{
-              marginTop: 20,
-              width: "100%",
-              borderTop: "1px solid #e9e9e9",
-              paddingTop: 20,
-            }}
-          >
-            Criação animal
-          </h2>
-          <InputWrapper>
-            <Select
-              styles={selectFieldStyle}
-              placeholder="Espécie 1"
-              value={selectFieldsValues.cte_tca_ds_1}
-              onChange={(e) => {
-                if (e) {
-                  setFormValues({ cte_tca_ds_1: e });
-                }
-              }}
-              options={animalCreation || []}
-            />
-            <Select
-              styles={selectFieldStyle}
-              placeholder="Sistema de criação animal 1"
-              value={selectFieldsValues.cte_tsc_ds_1}
-              onChange={(e) => {
-                if (e) {
-                  setFormValues({ cte_tsc_ds_1: e });
-                }
-              }}
-              options={creationSystem || []}
-            />
-            <Input
-              name="cte_nu_cabecas_1"
-              label="Número de cabeças criação 1:"
-            />
-          </InputWrapper>
-          <InputWrapper>
-            <Select
-              styles={selectFieldStyle}
-              placeholder="Espécie 2"
-              value={selectFieldsValues.cte_tca_ds_2}
-              onChange={(e) => {
-                if (e) {
-                  setFormValues({ cte_tca_ds_2: e });
-                }
-              }}
-              options={animalCreation || []}
-            />
-            <Select
-              styles={selectFieldStyle}
-              placeholder="Sistema de criação animal 2"
-              value={selectFieldsValues.cte_tsc_ds_2}
-              onChange={(e) => {
-                if (e) {
-                  setFormValues({ cte_tsc_ds_2: e });
-                }
-              }}
-              options={creationSystem || []}
-            />
-            <Input
-              name="cte_nu_cabecas_2"
-              label="Número de cabeças criação 2:"
-            />
-          </InputWrapper>
-          <InputWrapper>
-            <Input name="nu_pessoas" label="Número de pessoas" width="20%" />
-            <Input
-              name="observacao_finalidade"
-              label="Observações em relação as finalidades:"
-            />
-          </InputWrapper>
-          <>
+          </AquacultureDiv>
+          <AquacultureDiv hidden={!hasAquaculture}>
             <h2
               style={{
                 marginTop: 20,
@@ -376,28 +367,109 @@ function InterferenceForm({ setFormVisibility }) {
                 paddingTop: 20,
               }}
             >
-              Pós campo
+              Aquicultura
             </h2>
+            <InputWrapper>
+              <Input
+                name="numero_tanques"
+                type="number"
+                label="Número de tanques finalidade aquicultura:"
+              />
+              <Input
+                name="fes_nu_profundidademediatanque"
+                type="number"
+                label="Profundidade (m) tanques aquicultura:"
+              />
+              <Input
+                name="fes_nu_areatotaltanque"
+                type="number"
+                label="Área total dos tanques (m2) finalidade aquicultura:"
+              />
+            </InputWrapper>
             <Select
               styles={selectFieldStyle}
-              options={waterBodyType || []}
-              value={selectFieldsValues.int_tch_ds}
-              placeholder="Tipo do corpo hídrico:"
+              placeholder="Cultivo finalidade aquicultura"
+              value={selectFieldsValues.ttc_tcu_ds}
+              options={cultivationType || []}
               onChange={(e) => {
                 if (e) {
-                  setFormValues({ int_tch_ds: e });
+                  setFormValues({ ttc_tcu_ds: e });
                 }
               }}
             />
+          </AquacultureDiv>
+          <AquacultureDiv hidden={!hasAnimalCreation}>
+            <h2
+              style={{
+                marginTop: 20,
+                width: "100%",
+                borderTop: "1px solid #e9e9e9",
+                paddingTop: 20,
+              }}
+            >
+              Criação animal
+            </h2>
             <InputWrapper>
-              <Input name="int_nu_latitude" label="Latidude:" type="number" />
-              <Input name="int_nu_longitude" label="Longitude:" type="number" />
+              <Select
+                styles={selectFieldStyle}
+                placeholder="Espécie 1"
+                value={selectFieldsValues.cte_tca_ds_1}
+                onChange={(e) => {
+                  if (e) {
+                    setFormValues({ cte_tca_ds_1: e });
+                  }
+                }}
+                options={animalCreation || []}
+              />
+              <Select
+                styles={selectFieldStyle}
+                placeholder="Sistema de criação animal 1"
+                value={selectFieldsValues.cte_tsc_ds_1}
+                onChange={(e) => {
+                  if (e) {
+                    setFormValues({ cte_tsc_ds_1: e });
+                  }
+                }}
+                options={creationSystem || []}
+              />
+              <Input
+                name="cte_nu_cabecas_1"
+                label="Número de cabeças criação 1:"
+              />
             </InputWrapper>
             <InputWrapper>
-              <Input width="20%" name="ing_sg_ufmunicipio" label="UF:" />
-              <Input name="ing_nm_municipio" label="Município:" />
+              <Select
+                styles={selectFieldStyle}
+                placeholder="Espécie 2"
+                value={selectFieldsValues.cte_tca_ds_2}
+                onChange={(e) => {
+                  if (e) {
+                    setFormValues({ cte_tca_ds_2: e });
+                  }
+                }}
+                options={animalCreation || []}
+              />
+              <Select
+                styles={selectFieldStyle}
+                placeholder="Sistema de criação animal 2"
+                value={selectFieldsValues.cte_tsc_ds_2}
+                onChange={(e) => {
+                  if (e) {
+                    setFormValues({ cte_tsc_ds_2: e });
+                  }
+                }}
+                options={creationSystem || []}
+              />
+              <Input
+                name="cte_nu_cabecas_2"
+                label="Número de cabeças criação 2:"
+              />
             </InputWrapper>
-          </>
+          </AquacultureDiv>
+          <Input
+            name="observacao_finalidade"
+            label="Observações em relação as finalidades:"
+          />
 
           <FormFooter>
             <button type="submit">Salvar</button>

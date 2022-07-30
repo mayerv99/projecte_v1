@@ -1,4 +1,7 @@
 export const interferenceDataAdapter = ({
+  hasAquaculture,
+  hasAnimalCreation,
+  hasHumanUse,
   cte_tca_ds_1,
   cte_tsa_ds,
   cte_tsc_ds_1,
@@ -15,12 +18,19 @@ export const interferenceDataAdapter = ({
   ttc_tcu_ds,
   cte_tca_ds_2,
   cte_tsc_ds_2,
+  cod_interferencia,
+  int_nu_latitude,
+  int_nu_longitude,
+  numero_tanques,
+  fes_nu_profundidademediatanque,
+  fes_nu_areatotaltanque,
+  nu_pessoas,
   ...rest
 }) => {
   return {
     ...rest,
-    cte_tca_ds_1: cte_tca_ds_1.value,
-    cte_tsc_ds_1: cte_tsc_ds_1.value,
+    cod_interferencia: cod_interferencia.replace(" ", ""),
+
     fin_secundaria: fin_secundaria.value,
     fin_terciaria: fin_terciaria.value,
     fin_tfn_ds: fin_tfn_ds.value,
@@ -30,9 +40,33 @@ export const interferenceDataAdapter = ({
     int_tin_ds: int_tin_ds.value,
     int_tsi_ds: int_tsi_ds.value,
     int_tsu_ds: int_tsu_ds.value,
-    ttc_tcu_ds: ttc_tcu_ds.value,
-    cte_tca_ds_2: cte_tca_ds_2.value,
-    cte_tsc_ds_2: cte_tsc_ds_2.value,
+
+    int_nu_latitude: int_nu_latitude
+      .replace("°", "")
+      .replace(`'`, "")
+      .replace(`'`, "")
+      .replace(`'`, ""),
+    int_nu_longitude: int_nu_longitude
+      .replace("°", "")
+      .replace(`'`, "")
+      .replace(`'`, "")
+      .replace(`'`, ""),
+
+    ...(hasAquaculture && {
+      numero_tanques,
+      fes_nu_profundidademediatanque,
+      fes_nu_areatotaltanque,
+      ttc_tcu_ds: ttc_tcu_ds.value,
+    }),
+    ...(hasAnimalCreation && {
+      cte_tca_ds_1: cte_tca_ds_1.value,
+      cte_tsc_ds_1: cte_tsc_ds_1.value,
+      cte_nu_cabecas_1,
+      cte_tca_ds_2: cte_tca_ds_2.value,
+      cte_tsc_ds_2: cte_tsc_ds_2.value,
+      cte_nu_cabecas_2,
+    }),
+    ...(hasHumanUse && { nu_pessoas }),
   };
 };
 
@@ -69,7 +103,7 @@ export const getSelectFieldOptions = ({
     int_tin_ds: { label: int_tin_ds, value: int_tin_ds },
     int_tsi_ds: { label: int_tsi_ds, value: int_tsi_ds },
     int_tsu_ds: { label: int_tsu_ds, value: int_tsu_ds },
-    ttc_tcu_ds: { label: ttc_tcu_ds, value: ttc_tcu_ds },
+    ...(ttc_tcu_ds && { ttc_tcu_ds: { label: ttc_tcu_ds, value: ttc_tcu_ds } }),
     cte_tca_ds_2: { label: cte_tca_ds_2, value: cte_tca_ds_2 },
     cte_tsc_ds_2: { label: cte_tsc_ds_2, value: cte_tsc_ds_2 },
   };

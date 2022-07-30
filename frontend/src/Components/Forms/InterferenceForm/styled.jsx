@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Wrapper = styled.div`
   position: absolute;
   width: 100%;
-  height: 200%;
+  height: 250%;
   background-color: white;
   z-index: 998;
 `;
@@ -63,4 +63,8 @@ export const InputWrapper = styled.div`
 export const FormFooter = styled.div`
   width: 100%;
   text-align: center;
+`;
+
+export const AquacultureDiv = styled.div`
+  ${(props) => props.hidden && "display: hidden"}
 `;

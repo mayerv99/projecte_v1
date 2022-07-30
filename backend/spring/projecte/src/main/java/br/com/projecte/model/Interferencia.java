@@ -23,8 +23,8 @@ public class Interferencia {
 	private String int_tsu_ds;
 	private String int_nm_corpohidrico;
 	private String int_tch_ds;
-	private Float int_nu_latitude;
-	private Float int_nu_longitude;
+	private String int_nu_latitude;
+	private String int_nu_longitude;
 	private String ing_sg_ufmunicipio;
 	private String ing_nm_municipio;
 	private String int_tdm_ds;
