@@ -206,7 +206,7 @@ function RelationModal({
                     type="radio"
                     name="possui_area_plantada"
                     value={true}
-                    checked={irrigacaoStatus}
+                    checked={irrigacaoStatus === true}
                     onChange={() => setIrrigacaoStatus(true)}
                   />
                   <label>Sim</label>
@@ -216,7 +216,7 @@ function RelationModal({
                     type="radio"
                     name="possui_area_plantada"
                     value={false}
-                    checked={!irrigacaoStatus}
+                    checked={irrigacaoStatus === false}
                     onChange={() => setIrrigacaoStatus(false)}
                   />
                   <label>Não</label>
@@ -303,7 +303,7 @@ function RelationModal({
                     type="radio"
                     name="situacao_irrigacao"
                     value={true}
-                    checked={irrigacaoStatus}
+                    checked={irrigacaoStatus === true}
                     onChange={() => setIrrigacaoStatus(true)}
                   />
                   <label>Sim</label>
@@ -313,7 +313,7 @@ function RelationModal({
                     type="radio"
                     name="situacao_irrigacao"
                     value={false}
-                    checked={!irrigacaoStatus}
+                    checked={irrigacaoStatus === false}
                     onChange={() => setIrrigacaoStatus(false)}
                   />
                   <label>Não</label>
@@ -326,7 +326,7 @@ function RelationModal({
                     type="radio"
                     name="isRegular"
                     value={true}
-                    checked={isRegular}
+                    checked={isRegular === true}
                     onChange={() => setIsRegular(true)}
                   />
                   <label>Sim</label>
@@ -336,7 +336,7 @@ function RelationModal({
                     type="radio"
                     name="isRegular"
                     value={false}
-                    checked={!isRegular}
+                    checked={isRegular === false}
                     onChange={() => setIsRegular(false)}
                   />
                   <label>Não</label>
@@ -349,7 +349,7 @@ function RelationModal({
                     type="radio"
                     name="wasPresent"
                     value={true}
-                    checked={wasPresent}
+                    checked={wasPresent === true}
                     onChange={() => setWasPresent(true)}
                   />
                   <label>Sim</label>
@@ -359,7 +359,7 @@ function RelationModal({
                     type="radio"
                     name="wasPresent"
                     value={false}
-                    checked={!wasPresent}
+                    checked={wasPresent === false}
                     onChange={() => setWasPresent(false)}
                   />
                   <label>Não</label>

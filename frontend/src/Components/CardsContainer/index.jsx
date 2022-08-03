@@ -29,9 +29,9 @@ function CardsContainer() {
     setRelacao_usuario_principal_secundario,
   ] = useState();
 
-  const [irrigacaoStatus, setIrrigacaoStatus] = useState(false);
-  const [isRegular, setIsRegular] = useState(false);
-  const [wasPresent, setWasPresent] = useState(false);
+  const [irrigacaoStatus, setIrrigacaoStatus] = useState(null);
+  const [isRegular, setIsRegular] = useState(null);
+  const [wasPresent, setWasPresent] = useState(null);
 
   const [isEditInterference, setIsEditInterference] = useState(false);
 

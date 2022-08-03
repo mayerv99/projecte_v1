@@ -15,7 +15,7 @@ import {
   ListItem,
 } from "./styled";
 
-import { EditIco } from "../../../assets/icons/EditIco.svg";
+// import { EditIco } from "../../../assets/icons/EditIco.svg";
 
 function UsersAndInterferencesList({
   setFormVisibility,
@@ -103,12 +103,13 @@ function UsersAndInterferencesList({
             ))
           : interferencesList.map((interference) => (
               <ListItem>
-                {interference.cod_interferencia}
-                <div className="buttonDiv">
+                {interference.cod_interferencia} - {interference.int_tch_ds} -{" "}
+                {interference.int_tin_ds} - {interference.int_tdm_ds}
+                {/* <div className="buttonDiv">
                   <button onClick={() => editInterference(interference)}>
-                    <img src={EditIco} />
+                    Editar
                   </button>
-                </div>
+                </div> */}
               </ListItem>
             ))}
       </ListContainer>

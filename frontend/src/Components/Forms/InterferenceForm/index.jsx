@@ -201,10 +201,11 @@ function InterferenceForm({ setFormVisibility }) {
             Empreendimento: {selectedEnterprise}
           </h2>
           <InputWrapper>
-            <Input
+            <MaskedInput
               width="20%"
               name="cod_interferencia"
               label="Código da interferência:"
+              inputMask={`I${selectedEnterprise.substring(1)} xx`}
             />
             <Input
               width="20%"
@@ -255,15 +256,15 @@ function InterferenceForm({ setFormVisibility }) {
             }}
           />
           <InputWrapper>
-            <Input
+            <MaskedInput
               name="int_nu_latitude"
               label="Latidude:"
-              // inputMask={`xx° xx' xx''`}
+              inputMask={`xx° xx' xx''`}
             />
-            <Input
+            <MaskedInput
               name="int_nu_longitude"
               label="Longitude:"
-              // inputMask={`xx° xx' xx''`}
+              inputMask={`xx° xx' xx''`}
             />
           </InputWrapper>
           <InputWrapper>

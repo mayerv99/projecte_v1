@@ -22,7 +22,7 @@ function EnterpriseForm({ setFormVisibility }) {
 
   const { fecthEnterprises } = useContext(baseContext);
 
-  const [hasWaterUse, setHasWaterUse] = useState(false);
+  const [hasWaterUse, setHasWaterUse] = useState(null);
   const [isCPF, setIsCPF] = useState(true);
 
   const handleSubmit = async (data) => {
@@ -49,7 +49,7 @@ function EnterpriseForm({ setFormVisibility }) {
               name="cod_empreendimento"
               label="Código do empreendimento: "
               width="20%"
-              inputMask="exxxx"
+              inputMask="Exxxx"
             />
             <Input
               name="emp_nm_empreeendimento"
@@ -90,7 +90,7 @@ function EnterpriseForm({ setFormVisibility }) {
             <div style={{ display: "flex", flexDirection: "row", gap: 5 }}>
               <input
                 type="radio"
-                checked={hasWaterUse}
+                checked={hasWaterUse === true}
                 name="waterUse"
                 value={true}
                 onChange={() => setHasWaterUse(true)}
@@ -100,7 +100,7 @@ function EnterpriseForm({ setFormVisibility }) {
             <div style={{ display: "flex", flexDirection: "row", gap: 5 }}>
               <input
                 type="radio"
-                checked={!hasWaterUse}
+                checked={hasWaterUse === false}
                 name="waterUse"
                 value={false}
                 onChange={() => setHasWaterUse(false)}
