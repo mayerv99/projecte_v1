@@ -59,12 +59,14 @@ export const goalOptions = [
     value: "Aproveitamento hidroelétrico",
   },
   {
-    label: "Reservatório/Barramento/Regularização das vazoes",
-    value: "Reservatório/Barramento/Regularização das vazoes",
+    label:
+      "Reservatório/Barramento/Regularização das vazoes para usos múltiplos ",
+    value:
+      "Reservatório/Barramento/Regularização das vazoes para usos múltiplos",
   },
   {
-    label: "Usos múltiplos consumo humano",
-    value: "Usos múltiplos consumo humano",
+    label: "Consumo humano",
+    value: " Consumo humano",
   },
   {
     label: "Mineração-Outros processos extrativos",

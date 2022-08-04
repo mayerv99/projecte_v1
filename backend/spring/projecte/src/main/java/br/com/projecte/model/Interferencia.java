@@ -16,7 +16,7 @@ public class Interferencia {
 	@Column(name = "cod_empreendimento")
 	private String codEmpreendimento;
 	
-	private Long unidade_consumidora;
+	private String unidade_consumidora;
 	private String nome_inscrito;
 	private String int_cd_regla;
 	private String int_tin_ds;

@@ -207,11 +207,11 @@ function InterferenceForm({ setFormVisibility }) {
               label="Código da interferência:"
               inputMask={`I${selectedEnterprise.substring(1)} xx`}
             />
-            <Input
+            <MaskedInput
               width="20%"
-              type="number"
               name="unidade_consumidora"
               label="Unidade consumidora: "
+              inputMask={"x/xxxxxxx-x"}
             />
             <Input width="60%" name="nome_inscrito" label="Nome inscrito:" />
           </InputWrapper>
