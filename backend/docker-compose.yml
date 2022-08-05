@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   backend:
-    build: /spring/projecte
+    build: ./spring/projecte
     ports:
       - 8080:8080
     depends_on:

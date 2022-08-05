@@ -143,6 +143,9 @@ function InterferenceForm({ setFormVisibility }) {
     }
     await createInterference(
       interferenceDataAdapter({
+        hasAquaculture,
+        hasAnimalCreation,
+        hasHumanUse,
         ...data,
         ...selectFieldsValues,
         codEmpreendimento: selectedEnterprise,
@@ -378,12 +381,10 @@ function InterferenceForm({ setFormVisibility }) {
               />
               <Input
                 name="fes_nu_profundidademediatanque"
-                type="number"
                 label="Profundidade (m) tanques aquicultura:"
               />
               <Input
                 name="fes_nu_areatotaltanque"
-                type="number"
                 label="Área total dos tanques (m2) finalidade aquicultura:"
               />
             </InputWrapper>

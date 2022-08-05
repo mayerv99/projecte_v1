@@ -25,8 +25,11 @@ export const interferenceDataAdapter = ({
   fes_nu_profundidademediatanque,
   fes_nu_areatotaltanque,
   nu_pessoas,
+  cte_nu_cabecas_1,
+  cte_nu_cabecas_2,
   ...rest
 }) => {
+  console.log("hasAquacultue", hasAquaculture);
   return {
     ...rest,
     cod_interferencia: cod_interferencia.replace(" ", ""),
