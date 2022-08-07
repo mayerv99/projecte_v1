@@ -72,6 +72,8 @@ export const ListContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+  overflow-y: scroll;
+  max-height: 80%;
 `;
 
 export const ListItem = styled.div`

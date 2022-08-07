@@ -44,17 +44,8 @@ export const interferenceDataAdapter = ({
     int_tsi_ds: int_tsi_ds.value,
     int_tsu_ds: int_tsu_ds.value,
 
-    int_nu_latitude: int_nu_latitude
-      .replace("°", "")
-      .replace(`'`, "")
-      .replace(`'`, "")
-      .replace(`'`, ""),
-    int_nu_longitude: int_nu_longitude
-      .replace("°", "")
-      .replace(`'`, "")
-      .replace(`'`, "")
-      .replace(`'`, ""),
-
+    int_nu_latitude: int_nu_latitude,
+    int_nu_longitude: int_nu_longitude,
     ...(hasAquaculture && {
       numero_tanques,
       fes_nu_profundidademediatanque,
