@@ -87,7 +87,6 @@ function InterferenceForm({ setFormVisibility }) {
     const goalsArray = Object.keys(goals).map((key) => {
       return goals[key];
     });
-    console.log(goalsArray);
 
     if (
       goalsArray.includes("Aquicultura em tanque escavado") ||
@@ -113,12 +112,12 @@ function InterferenceForm({ setFormVisibility }) {
 
       setHasAnimalCreation(false);
     }
-    if (goalsArray.includes("Usos múltiplos consumo humano")) {
+    if (goalsArray.includes("Consumo humano")) {
       console.log(5);
 
       setHasHumanUse(true);
     }
-    if (!goalsArray.includes("Usos múltiplos consumo humano")) {
+    if (!goalsArray.includes("Consumo humano")) {
       console.log(6);
 
       setHasHumanUse(false);

@@ -66,7 +66,7 @@ export const goalOptions = [
   },
   {
     label: "Consumo humano",
-    value: " Consumo humano",
+    value: "Consumo humano",
   },
   {
     label: "Mineração-Outros processos extrativos",
